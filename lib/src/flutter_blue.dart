@@ -32,7 +32,7 @@ class FlutterBlue {
   /// Checks whether the device supports Bluetooth
   Future<bool> get isAvailable =>
       _channel.invokeMethod('isAvailable').then<bool>((d) => d);
-  
+
   /// Sets a unique id (required on iOS for restoring app on background-scan)
   /// should be called before any other methods.
   Future setUniqueId(String uniqueid) => _channel.invokeMethod('setUniqueId',uniqueid.toString());

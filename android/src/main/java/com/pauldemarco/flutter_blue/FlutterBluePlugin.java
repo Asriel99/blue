@@ -92,9 +92,7 @@ public class FlutterBluePlugin extends Application implements FlutterPlugin, Act
     @Override
     public void onCreate(){
         super.onCreate();
-        
        this.context = getApplicationContext();
-
     }
 
     public static Context getApp(){
@@ -168,7 +166,7 @@ public class FlutterBluePlugin extends Application implements FlutterPlugin, Act
             channel.setMethodCallHandler(this);
             stateChannel = new EventChannel(messenger, NAMESPACE + "/state");
             stateChannel.setStreamHandler(stateHandler);
-            mBluetoothManager = (BluetoothManager) application.getSystemService(Context.BLUETOOTH_SERVICE);
+            mBluetoothManager = (BluetoothManager) getApp().getSystemService(Context.BLUETOOTH_SERVICE);
            // mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
             mBluetoothAdapter = mBluetoothManager.getAdapter();
             if (registrar != null) {
