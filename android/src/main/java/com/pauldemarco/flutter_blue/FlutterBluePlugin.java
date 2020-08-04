@@ -61,7 +61,7 @@ import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
 
 /** FlutterBluePlugin */
-public class FlutterBluePlugin extends Application, ActivityAware implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
+public class FlutterBluePlugin extends Application  implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
     private static final String TAG = "FlutterBluePlugin";
     private static FlutterBluePlugin instance;
     private Object initializationLock = new Object();
