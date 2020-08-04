@@ -211,7 +211,11 @@ public class FlutterBluePlugin extends Application implements FlutterPlugin, Act
                 result.success(null);
                 break;
             }
-
+            case "setUniqueId":
+            {
+                result.success(null);
+                break;
+            }
             case "state":
             {
                 Protos.BluetoothState.Builder p = Protos.BluetoothState.newBuilder();
