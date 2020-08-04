@@ -61,7 +61,7 @@ import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
 
 /** FlutterBluePlugin */
-public class FlutterBluePlugin extends Application implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
+public class FlutterBluePlugin extends Application, ActivityAware implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
     private static final String TAG = "FlutterBluePlugin";
     private static FlutterBluePlugin instance;
     private Object initializationLock = new Object();
@@ -77,6 +77,7 @@ public class FlutterBluePlugin extends Application implements FlutterPlugin, Act
     private ActivityPluginBinding activityBinding;
     private Application application;
     private Activity activity;
+
 
     private static final int REQUEST_FINE_LOCATION_PERMISSIONS = 1452;
     static final private UUID CCCD_ID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -152,9 +153,11 @@ public class FlutterBluePlugin extends Application implements FlutterPlugin, Act
         onAttachedToActivity(binding);
     }
 
+
     private void setup(
             final BinaryMessenger messenger,
             final Application application,
+            String context = Context.BLUETOOTH_SERVICE;
             final Activity activity,
             final PluginRegistry.Registrar registrar,
             final ActivityPluginBinding activityBinding) {
@@ -166,7 +169,8 @@ public class FlutterBluePlugin extends Application implements FlutterPlugin, Act
             channel.setMethodCallHandler(this);
             stateChannel = new EventChannel(messenger, NAMESPACE + "/state");
             stateChannel.setStreamHandler(stateHandler);
-            mBluetoothManager = (BluetoothManager) getApp().getSystemService(Context.BLUETOOTH_SERVICE);
+            mBluetoothManager = (BluetoothManager) Config.context.getSystemService(context);
+            //mBluetoothManager = (BluetoothManager) getApp().getSystemService(Context.BLUETOOTH_SERVICE);
            // mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
             mBluetoothAdapter = mBluetoothManager.getAdapter();
             if (registrar != null) {
