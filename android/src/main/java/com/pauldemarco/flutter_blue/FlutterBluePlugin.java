@@ -61,11 +61,11 @@ import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
 
 /** FlutterBluePlugin */
-public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener  {
+public class FlutterBluePlugin extends Application implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
     private static final String TAG = "FlutterBluePlugin";
     private static FlutterBluePlugin instance;
     private Object initializationLock = new Object();
-    private Context context;
+    private static Context context;
     private MethodChannel channel;
     private static final String NAMESPACE = "plugins.pauldemarco.com/flutter_blue";
 
@@ -89,15 +89,26 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
     private ArrayList<String> macDeviceScanned = new ArrayList<>();
     private boolean allowDuplicates = false;
 
+    @Override
+    public void onCreate(){
+        super.onCreate();
+        
+       this.context = getApplicationContext();
+
+    }
+
+    public static Context getApp(){
+        return context;
+    }
     /** Plugin registration. */
     public static void registerWith(Registrar registrar) {
         if (instance == null) {
             instance = new FlutterBluePlugin();
         }
-        Activity activity = registrar.activeContext();
+        Activity activity = (Activity) getApp();
         Application application = null;
         if (registrar.context() != null) {
-            application = (Application) (registrar.context().getApplicationContext());
+            application = (Application) registrar.context();
         }
         instance.setup(registrar.messenger(), application, activity, registrar, null);
     }
@@ -118,6 +129,8 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
     @Override
     public void onAttachedToActivity(ActivityPluginBinding binding) {
         activityBinding = binding;
+        //context = flutterPluginBinding.applicationContext;
+
         setup(
                 pluginBinding.getBinaryMessenger(),
                 (Application) pluginBinding.getApplicationContext(),
@@ -156,6 +169,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
             stateChannel = new EventChannel(messenger, NAMESPACE + "/state");
             stateChannel.setStreamHandler(stateHandler);
             mBluetoothManager = (BluetoothManager) application.getSystemService(Context.BLUETOOTH_SERVICE);
+           // mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
             mBluetoothAdapter = mBluetoothManager.getAdapter();
             if (registrar != null) {
                 // V1 embedding setup for activity listeners.
