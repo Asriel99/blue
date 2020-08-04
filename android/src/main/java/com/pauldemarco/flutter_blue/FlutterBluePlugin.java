@@ -61,7 +61,7 @@ import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
 
 /** FlutterBluePlugin */
-public class FlutterBluePlugin extends Application  implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
+public class FlutterBluePlugin extends Activity implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener    {
     private static final String TAG = "FlutterBluePlugin";
     private static FlutterBluePlugin instance;
     private Object initializationLock = new Object();
@@ -152,7 +152,9 @@ public class FlutterBluePlugin extends Application  implements FlutterPlugin, Ac
     public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
         onAttachedToActivity(binding);
     }
-
+    LocationManager locationManager;
+    String context = Context.LOCATION_SERVICE;
+    locationManager = Config.context.getSystemService(context);
 
     private void setup(final BinaryMessenger messenger, final Application application, final Activity activity, final PluginRegistry.Registrar registrar, final ActivityPluginBinding activityBinding) {
         synchronized (initializationLock) {
