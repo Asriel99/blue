@@ -94,7 +94,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
         if (instance == null) {
             instance = new FlutterBluePlugin();
         }
-        Activity activity = registrar.activity();
+        Activity activity = registrar.activeContext();
         Application application = null;
         if (registrar.context() != null) {
             application = (Application) (registrar.context().getApplicationContext());
