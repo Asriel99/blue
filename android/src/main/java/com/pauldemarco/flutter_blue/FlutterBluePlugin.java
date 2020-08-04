@@ -154,13 +154,7 @@ public class FlutterBluePlugin extends Application, ActivityAware implements Flu
     }
 
 
-    private void setup(
-            final BinaryMessenger messenger,
-            final Application application,
-            String context = Context.BLUETOOTH_SERVICE;
-            final Activity activity,
-            final PluginRegistry.Registrar registrar,
-            final ActivityPluginBinding activityBinding) {
+    private void setup(final BinaryMessenger messenger, final Application application, final Activity activity, final PluginRegistry.Registrar registrar, final ActivityPluginBinding activityBinding) {
         synchronized (initializationLock) {
             Log.i(TAG, "setup");
             this.activity = activity;
@@ -169,6 +163,7 @@ public class FlutterBluePlugin extends Application, ActivityAware implements Flu
             channel.setMethodCallHandler(this);
             stateChannel = new EventChannel(messenger, NAMESPACE + "/state");
             stateChannel.setStreamHandler(stateHandler);
+            String context = Context.BLUETOOTH_SERVICE;
             mBluetoothManager = (BluetoothManager) Config.context.getSystemService(context);
             //mBluetoothManager = (BluetoothManager) getApp().getSystemService(Context.BLUETOOTH_SERVICE);
            // mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
